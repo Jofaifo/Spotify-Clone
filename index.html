@@ -12,6 +12,18 @@
    body {
     font-family: 'Roboto', sans-serif;
    }
+   audio {
+    display: none;
+   }
+   .player-controls .play-btn {
+    min-width: 80px;
+   }
+   .player-controls .play-btn:hover {
+    opacity: 0.95;
+   }
+   .player-controls .progress-container {
+    cursor: pointer;
+   }
   </style>
  </head>
  <body class="bg-gray-900 text-white">
@@ -191,5 +203,78 @@
     </section>
    </main>
   </div>
+  <script>
+   document.addEventListener('DOMContentLoaded', () => {
+    const audios = Array.from(document.querySelectorAll('audio'));
+    let activeAudio = null;
+
+    const formatTime = seconds => {
+     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
+     const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+     return `${m}:${s}`;
+    };
+
+    audios.forEach(audio => {
+     audio.removeAttribute('controls');
+     const controls = document.createElement('div');
+     controls.className = 'player-controls mt-3 space-y-2';
+     controls.innerHTML = `
+      <div class="flex items-center gap-3">
+       <button type="button" class="play-btn px-3 py-2 rounded bg-green-500 hover:bg-green-400 text-black font-semibold">Play</button>
+       <span class="text-sm text-gray-300 time-label">00:00 / 00:00</span>
+      </div>
+      <div class="progress-container w-full bg-white/10 h-2 rounded overflow-hidden">
+       <div class="progress-bar bg-green-500 h-full w-0"></div>
+      </div>
+     `;
+
+     audio.insertAdjacentElement('afterend', controls);
+     const playButton = controls.querySelector('.play-btn');
+     const timeLabel = controls.querySelector('.time-label');
+     const progressBar = controls.querySelector('.progress-bar');
+     const progressContainer = controls.querySelector('.progress-container');
+
+     const updateTime = () => {
+      const duration = audio.duration || 0;
+      const current = audio.currentTime || 0;
+      const percent = duration ? (current / duration) * 100 : 0;
+      progressBar.style.width = `${percent}%`;
+      timeLabel.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+     };
+
+     audio.addEventListener('loadedmetadata', updateTime);
+     audio.addEventListener('timeupdate', updateTime);
+     audio.addEventListener('ended', () => {
+      playButton.textContent = 'Play';
+      progressBar.style.width = '0%';
+      if (activeAudio === audio) activeAudio = null;
+     });
+
+     playButton.addEventListener('click', () => {
+      if (activeAudio && activeAudio !== audio) {
+       activeAudio.pause();
+       const oldButton = activeAudio.closest('article')?.querySelector('.play-btn');
+       if (oldButton) oldButton.textContent = 'Play';
+      }
+      if (audio.paused) {
+       audio.play();
+       playButton.textContent = 'Pause';
+       activeAudio = audio;
+      } else {
+       audio.pause();
+       playButton.textContent = 'Play';
+      }
+     });
+
+     progressContainer.addEventListener('click', event => {
+      const rect = progressContainer.getBoundingClientRect();
+      const clickRatio = (event.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+       audio.currentTime = clickRatio * audio.duration;
+      }
+     });
+    });
+   });
+  </script>
  </body>
 </html>
