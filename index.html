@@ -11,9 +11,26 @@
   <style>
    body {
     font-family: 'Roboto', sans-serif;
+    padding-bottom: 100px;
    }
    audio {
     display: none;
+   }
+   .card {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+   }
+   .card:hover {
+    background-color: #374151;
+    transform: translateY(-2px);
+   }
+   .card:hover .play-btn {
+    opacity: 1;
+    transform: translateY(0);
+   }
+   .play-btn {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
    }
    .player-controls .play-btn {
     min-width: 80px;
@@ -24,189 +41,296 @@
    .player-controls .progress-container {
     cursor: pointer;
    }
+   .progress-bar {
+    transition: width 0.1s linear;
+   }
+   .fixed-player {
+    background-color: #121212;
+    border-top: 1px solid #282828;
+   }
+   .fixed-player .play-btn {
+    min-width: 40px;
+    min-height: 40px;
+   }
+   .song-info img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+   }
+   .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+   }
+   .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+   }
   </style>
  </head>
  <body class="bg-gray-900 text-white">
   <div class="flex">
-   <aside class="w-64 bg-gray-800 h-screen p-5">
+   <aside class="w-64 bg-black h-screen p-5 fixed top-0 left-0 flex flex-col">
     <div class="mb-8">
      <img alt="Spotify logo" class="mb-5" height="50" src="Spotify.png" width="150" />
      <ul>
       <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white" href="#">
-        <span class="mr-3">↓</span>
-        No Funcional
-       </a>
-      </li>
-      <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
         <i class="fas fa-home mr-3"></i>
         Home
        </a>
       </li>
       <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
         <i class="fas fa-search mr-3"></i>
         Search
        </a>
       </li>
       <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white" href="#">
+       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
         <i class="fas fa-bookmark mr-3"></i>
         Your Library
        </a>
       </li>
      </ul>
     </div>
-    <div>
-     <h3 class="text-gray-400 mb-4">Credits</h3>
+    <div class="mt-auto">
+     <h3 class="text-gray-400 mb-4 text-sm uppercase tracking-wider">Credits</h3>
      <ul>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">BlackBox</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">Remove BG</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">Behance</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">Deemix</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">Github</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">Spotify Art Getter</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white" href="#">VSCode</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">BlackBox</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Remove BG</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Behance</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Deemix</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Github</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Spotify Art Getter</a></li>
+      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">VSCode</a></li>
      </ul>
     </div>
    </aside>
-   <main class="flex-1 p-10">
+   <main class="flex-1 p-10 ml-64">
     <section class="mb-10">
      <h1 class="text-3xl font-bold mb-5">Good Evening</h1>
-     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/INSTINTO ANIMAL.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Instinto Animal — Gonzy</h2>
-       <audio controls>
-        <source src="MP3/Gonzy - INSTINTO ANIMAL.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/X'CLUSIVO (REMIX).jpg" width="150" />
-       <h2 class="text-lg font-semibold">X'CLUSIVO (Remix) — Gonzy</h2>
-       <audio controls>
-        <source src="MP3/Gonzy - X'CLUSIVO (REMIX).mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/Que Sed.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Fue Culpa Tuya — Luck Ra, Tiago PZK</h2>
-       <audio controls>
-        <source src="MP3/Luck Ra - FUE CULPA TUYA.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/Hablando De Love.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Hablando de Love — Tiago PZK</h2>
-       <audio controls>
-        <source src="MP3/Tiago PZK - Hablando De Love.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/xq te enamoraste.jpg" width="150" />
-       <h2 class="text-lg font-semibold">XQ Te Enamoraste — Zell, Tiago PZK</h2>
-       <audio controls>
-        <source src="MP3/ZELL - xq te enamoraste.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
+     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/INSTINTO ANIMAL.jpg" />
+        <h2 class="text-lg font-semibold truncate">Instinto Animal</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Gonzy - INSTINTO ANIMAL.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/X'CLUSIVO (REMIX).jpg" />
+        <h2 class="text-lg font-semibold truncate">X'CLUSIVO (Remix)</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Gonzy - X'CLUSIVO (REMIX).mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Que Sed.jpg" />
+        <h2 class="text-lg font-semibold truncate">Fue Culpa Tuya</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Luck Ra - FUE CULPA TUYA.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Hablando De Love.jpg" />
+        <h2 class="text-lg font-semibold truncate">Hablando de Love</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Tiago PZK - Hablando De Love.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/xq te enamoraste.jpg" />
+        <h2 class="text-lg font-semibold truncate">XQ Te Enamoraste</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/ZELL - xq te enamoraste.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
      </div>
     </section>
-    <section>
-     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">Buen Día Portación De Rostro — Milo J</h2>
-       <audio controls>
-        <source src="MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">Ojalá — Milo J, Bhavi</h2>
-       <audio controls>
-        <source src="MP3/Milo j - OJALA.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">Olimpo — Milo J</h2>
-       <audio controls>
-        <source src="MP3/Milo j - OLIMPO.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">Retirada - Milo J</h2>
-       <audio controls>
-        <source src="MP3/Milo j - RETIRADA.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">La Tortura — Milo J, Cerouno</h2>
-       <audio controls>
-        <source src="MP3/Milo j - LA TORTURA.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/166 (DELUXE).jpg" width="150" />
-       <h2 class="text-lg font-semibold">Paraíso (Daña) — Milo J</h2>
-       <audio controls>
-        <source src="MP3/Milo j - PARAISO (daña).mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/Va a querer volver.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Va A Querer Volver — Felipelblessed</h2>
-       <audio controls>
-        <source src="MP3/Felipelblessed - Va a querer volver.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/POLLYPOCKET.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Pollypocket — Martinwhite</h2>
-       <audio controls>
-        <source src="MP3/Martinwhite - POLLYPOCKET.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Glow Up album cover" class="mb-3 rounded" height="150" src="Img/GLOW UP.jpg" width="150" />
-       <h2 class="text-lg font-semibold">GLOW UP - Lewis Potter</h2>
-       <audio controls>
-        <source src="MP3/Lewis Potter - GLOW UP.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
-      <article class="bg-gray-800 p-4 rounded-lg">
-       <img alt="Album cover" class="mb-3 rounded" height="150" src="Img/YA NO ES LA MISMA.jpg" width="150" />
-       <h2 class="text-lg font-semibold">Ya No Es La Misma — Vius</h2>
-       <audio controls>
-        <source src="MP3/Vius - YA NO ES LA MISMA.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-       </audio>
-      </article>
+    <section class="mb-8">
+     <h2 class="text-2xl font-bold mb-4">Milo J - 166 (Deluxe)</h2>
+     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">Buen Día</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">Ojalá</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - OJALA.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">Olimpo</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - OLIMPO.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">Retirada</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - RETIRADA.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">La Tortura</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - LA TORTURA.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+     </div>
+    </section>
+    <section class="mb-8">
+     <h2 class="text-2xl font-bold mb-4">Made For You</h2>
+     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+        <h2 class="text-lg font-semibold truncate">Paraíso (Daña)</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Milo j - PARAISO (daña).mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Va a querer volver.jpg" />
+        <h2 class="text-lg font-semibold truncate">Va A Querer Volver</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Felipelblessed - Va a querer volver.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/POLLYPOCKET.jpg" />
+        <h2 class="text-lg font-semibold truncate">Pollypocket</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Martinwhite - POLLYPOCKET.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Glow Up album cover" class="w-20 h-20 rounded" src="Img/GLOW UP.jpg" />
+        <h2 class="text-lg font-semibold truncate">GLOW UP</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Lewis Potter - GLOW UP.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/YA NO ES LA MISMA.jpg" />
+        <h2 class="text-lg font-semibold truncate">Ya No Es La Misma</h2>
+        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+         <i class="fas fa-play"></i>
+        </button>
+        <audio>
+         <source src="MP3/Vius - YA NO ES LA MISMA.mp3" type="audio/mpeg" />
+        </audio>
+       </article>
      </div>
     </section>
    </main>
   </div>
+
+  <div class="fixed-player fixed bottom-0 left-0 right-0 p-4 flex items-center justify-between z-50">
+   <div class="song-info flex items-center gap-4 w-1/4">
+    <img id="currentImage" src="" alt="Current song" class="rounded" />
+    <div>
+     <h3 id="currentTitle" class="font-semibold text-sm">Select a song</h3>
+     <p id="currentArtist" class="text-gray-400 text-xs">-</p>
+    </div>
+    <button class="like-btn text-gray-400 hover:text-white ml-2">
+     <i class="far fa-heart"></i>
+    </button>
+   </div>
+   <div class="w-1/2 flex flex-col items-center">
+    <div class="flex items-center gap-6 mb-2">
+     <button class="shuffle-btn text-gray-400 hover:text-white transition-colors">
+     <i class="fas fa-random"></i>
+    </button>
+     <button class="prev-btn text-gray-400 hover:text-white transition-colors text-xl">
+     <i class="fas fa-step-backward"></i>
+    </button>
+     <button id="mainPlayBtn" class="play-btn p-3 rounded-full bg-white text-black hover:scale-105 transition-transform">
+     <i class="fas fa-play text-lg"></i>
+    </button>
+    <button class="next-btn text-gray-400 hover:text-white transition-colors text-xl">
+     <i class="fas fa-step-forward"></i>
+    </button>
+    <button class="repeat-btn text-gray-400 hover:text-white transition-colors">
+     <i class="fas fa-redo"></i>
+    </button>
+    </div>
+    <div class="w-full flex items-center gap-3">
+     <span id="currentTime" class="text-xs text-gray-400 w-10 text-right">0:00</span>
+     <div class="progress-container flex-1 bg-gray-600 h-1 rounded cursor-pointer relative">
+     <div id="mainProgressBar" class="progress-bar bg-green-500 h-full w-0 absolute top-0 left-0"></div>
+     </div>
+     <span id="totalTime" class="text-xs text-gray-400 w-10">0:00</span>
+    </div>
+   </div>
+   <div class="w-1/4 flex items-center justify-end gap-3">
+    <button class="text-gray-400 hover:text-white transition-colors">
+     <i class="fas fa-list"></i>
+    </button>
+    <button class="text-gray-400 hover:text-white transition-colors">
+     <i class="fas fa-desktop"></i>
+    </button>
+    <button id="volumeBtn" class="text-gray-400 hover:text-white transition-colors">
+     <i class="fas fa-volume-up"></i>
+    </button>
+    <input type="range" id="volumeSlider" min="0" max="100" value="100" class="w-24 accent-green-500" />
+   </div>
+  </div>
+
   <script>
    document.addEventListener('DOMContentLoaded', () => {
-    const audios = Array.from(document.querySelectorAll('audio'));
+    const cards = document.querySelectorAll('article.card');
     let activeAudio = null;
+    let activeCard = null;
+    const songs = [];
 
     const formatTime = seconds => {
      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -214,65 +338,125 @@
      return `${m}:${s}`;
     };
 
-    audios.forEach(audio => {
-     audio.removeAttribute('controls');
-     const controls = document.createElement('div');
-     controls.className = 'player-controls mt-3 space-y-2';
-     controls.innerHTML = `
-      <div class="flex items-center gap-3">
-       <button type="button" class="play-btn px-3 py-2 rounded bg-green-500 hover:bg-green-400 text-black font-semibold">Play</button>
-       <span class="text-sm text-gray-300 time-label">00:00 / 00:00</span>
-      </div>
-      <div class="progress-container w-full bg-white/10 h-2 rounded overflow-hidden">
-       <div class="progress-bar bg-green-500 h-full w-0"></div>
-      </div>
-     `;
+    const mainPlayBtn = document.getElementById('mainPlayBtn');
+    const mainProgressBar = document.getElementById('mainProgressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    const currentTitleEl = document.getElementById('currentTitle');
+    const currentArtistEl = document.getElementById('currentArtist');
+    const currentImageEl = document.getElementById('currentImage');
+    const volumeSlider = document.getElementById('volumeSlider');
 
-     audio.insertAdjacentElement('afterend', controls);
-     const playButton = controls.querySelector('.play-btn');
-     const timeLabel = controls.querySelector('.time-label');
-     const progressBar = controls.querySelector('.progress-bar');
-     const progressContainer = controls.querySelector('.progress-container');
+    cards.forEach(card => {
+     const audio = card.querySelector('audio');
+     const img = card.querySelector('img');
+     const title = card.querySelector('h2').textContent;
+     const playBtn = card.querySelector('.play-btn');
 
-     const updateTime = () => {
-      const duration = audio.duration || 0;
-      const current = audio.currentTime || 0;
-      const percent = duration ? (current / duration) * 100 : 0;
-      progressBar.style.width = `${percent}%`;
-      timeLabel.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
-     };
+     songs.push({ audio, card, img, title });
 
-     audio.addEventListener('loadedmetadata', updateTime);
-     audio.addEventListener('timeupdate', updateTime);
-     audio.addEventListener('ended', () => {
-      playButton.textContent = 'Play';
-      progressBar.style.width = '0%';
-      if (activeAudio === audio) activeAudio = null;
+     audio.addEventListener('loadedmetadata', () => {
+      if (activeAudio === audio) {
+       totalTimeEl.textContent = formatTime(audio.duration);
+      }
      });
 
-     playButton.addEventListener('click', () => {
+     audio.addEventListener('timeupdate', () => {
+      if (activeAudio === audio) {
+       const percent = (audio.currentTime / audio.duration) * 100;
+       mainProgressBar.style.width = `${percent}%`;
+       currentTimeEl.textContent = formatTime(audio.currentTime);
+      }
+     });
+
+     audio.addEventListener('ended', () => {
+      playBtn.innerHTML = '<i class="fas fa-play"></i>';
+      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
+      mainProgressBar.style.width = '0%';
+      currentTimeEl.textContent = '0:00';
+     });
+
+     const playSong = () => {
       if (activeAudio && activeAudio !== audio) {
        activeAudio.pause();
-       const oldButton = activeAudio.closest('article')?.querySelector('.play-btn');
-       if (oldButton) oldButton.textContent = 'Play';
+       if (activeCard) {
+        activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+       }
       }
+
+      audio.play();
+      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
+      activeAudio = audio;
+      activeCard = card;
+
+      currentTitleEl.textContent = title;
+      currentArtistEl.textContent = '';
+      currentImageEl.src = img.src;
+     };
+
+     playBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (audio.paused) {
-       audio.play();
-       playButton.textContent = 'Pause';
-       activeAudio = audio;
+       playSong();
       } else {
        audio.pause();
-       playButton.textContent = 'Play';
+       playBtn.innerHTML = '<i class="fas fa-play"></i>';
+       mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
       }
      });
 
-     progressContainer.addEventListener('click', event => {
-      const rect = progressContainer.getBoundingClientRect();
-      const clickRatio = (event.clientX - rect.left) / rect.width;
-      if (audio.duration) {
-       audio.currentTime = clickRatio * audio.duration;
+     card.addEventListener('click', (e) => {
+      if (e.target.closest('.play-btn')) return;
+      if (audio.paused) {
+       playSong();
       }
      });
+    });
+
+    mainPlayBtn.addEventListener('click', () => {
+     if (!activeAudio) {
+      if (cards[0]) {
+       const firstAudio = cards[0].querySelector('audio');
+       const firstPlayBtn = cards[0].querySelector('.play-btn');
+       firstAudio.play();
+       firstPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
+       mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
+       activeAudio = firstAudio;
+       activeCard = cards[0];
+       const title = cards[0].querySelector('h2').textContent;
+       currentTitleEl.textContent = title;
+       currentImageEl.src = cards[0].querySelector('img').src;
+      }
+      return;
+     }
+
+     if (activeAudio.paused) {
+      activeAudio.play();
+      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
+      if (activeCard) {
+       activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-pause"></i>';
+      }
+     } else {
+      activeAudio.pause();
+      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
+      if (activeCard) {
+       activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+      }
+     }
+    });
+
+    volumeSlider.addEventListener('input', (e) => {
+     if (activeAudio) {
+      activeAudio.volume = e.target.value / 100;
+     }
+    });
+
+    document.querySelector('.progress-container').addEventListener('click', (e) => {
+     if (!activeAudio || !activeAudio.duration) return;
+     const rect = e.currentTarget.getBoundingClientRect();
+     const clickRatio = (e.clientX - rect.left) / rect.width;
+     activeAudio.currentTime = clickRatio * activeAudio.duration;
     });
    });
   </script>
