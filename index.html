@@ -18,29 +18,26 @@
    }
    .card {
     transition: background-color 0.3s ease, transform 0.2s ease;
+    position: relative;
    }
    .card:hover {
     background-color: #374151;
-    transform: translateY(-2px);
    }
-   .card:hover .play-btn {
-    opacity: 1;
-    transform: translateY(0);
-   }
-   .play-btn {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-   }
-   .player-controls .play-btn {
-    min-width: 80px;
-   }
-   .player-controls .play-btn:hover {
-    opacity: 0.95;
-   }
-   .player-controls .progress-container {
-    cursor: pointer;
-   }
+.card mainPlayBtn {
+     position: absolute;
+     bottom: 70px;
+     right: 10px;
+     opacity: 0;
+     transform: translateY(10px);
+     transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .card:hover mainPlayBtn {
+     opacity: 1;
+     transform: translateY(0);
+    }
+    .player-controls .progress-container {
+     cursor: pointer;
+    }
    .progress-bar {
     transition: width 0.1s linear;
    }
@@ -48,7 +45,7 @@
     background-color: #121212;
     border-top: 1px solid #282828;
    }
-   .fixed-player .play-btn {
+   .fixed-player .main-play-btn {
     min-width: 40px;
     min-height: 40px;
    }
@@ -109,10 +106,10 @@
     <section class="mb-10">
      <h1 class="text-3xl font-bold mb-5">Good Evening</h1>
      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/INSTINTO ANIMAL.jpg" />
         <h2 class="text-lg font-semibold truncate">Instinto Animal</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -122,7 +119,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/X'CLUSIVO (REMIX).jpg" />
         <h2 class="text-lg font-semibold truncate">X'CLUSIVO (Remix)</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -132,7 +129,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Que Sed.jpg" />
         <h2 class="text-lg font-semibold truncate">Fue Culpa Tuya</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -142,7 +139,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Hablando De Love.jpg" />
         <h2 class="text-lg font-semibold truncate">Hablando de Love</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -152,7 +149,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/xq te enamoraste.jpg" />
         <h2 class="text-lg font-semibold truncate">XQ Te Enamoraste</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -167,7 +164,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">Buen Día</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -177,7 +174,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">Ojalá</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -187,7 +184,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">Olimpo</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -197,7 +194,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">Retirada</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -207,7 +204,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">La Tortura</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -222,7 +219,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
         <h2 class="text-lg font-semibold truncate">Paraíso (Daña)</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -232,7 +229,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Va a querer volver.jpg" />
         <h2 class="text-lg font-semibold truncate">Va A Querer Volver</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -242,7 +239,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/POLLYPOCKET.jpg" />
         <h2 class="text-lg font-semibold truncate">Pollypocket</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -252,7 +249,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Glow Up album cover" class="w-20 h-20 rounded" src="Img/GLOW UP.jpg" />
         <h2 class="text-lg font-semibold truncate">GLOW UP</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -262,7 +259,7 @@
        <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/YA NO ES LA MISMA.jpg" />
         <h2 class="text-lg font-semibold truncate">Ya No Es La Misma</h2>
-        <button class="play-btn absolute p-2 rounded-full bg-green-500 shadow-lg">
+        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
          <i class="fas fa-play"></i>
         </button>
         <audio>
@@ -293,7 +290,7 @@
      <button class="prev-btn text-gray-400 hover:text-white transition-colors text-xl">
      <i class="fas fa-step-backward"></i>
     </button>
-     <button id="mainPlayBtn" class="play-btn p-3 rounded-full bg-white text-black hover:scale-105 transition-transform">
+     <button id="mainPlayBtn" class="main-play-btn p-3 rounded-full bg-white text-black hover:scale-105 transition-transform">
      <i class="fas fa-play text-lg"></i>
     </button>
     <button class="next-btn text-gray-400 hover:text-white transition-colors text-xl">
@@ -351,7 +348,7 @@
      const audio = card.querySelector('audio');
      const img = card.querySelector('img');
      const title = card.querySelector('h2').textContent;
-     const playBtn = card.querySelector('.play-btn');
+     const playBtn = card.querySelector('.card-play-btn');
 
      songs.push({ audio, card, img, title });
 
@@ -380,7 +377,7 @@
       if (activeAudio && activeAudio !== audio) {
        activeAudio.pause();
        if (activeCard) {
-        activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+        activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-play"></i>';
        }
       }
 
@@ -407,7 +404,7 @@
      });
 
      card.addEventListener('click', (e) => {
-      if (e.target.closest('.play-btn')) return;
+      if (e.target.closest('.card-play-btn')) return;
       if (audio.paused) {
        playSong();
       }
@@ -418,7 +415,7 @@
      if (!activeAudio) {
       if (cards[0]) {
        const firstAudio = cards[0].querySelector('audio');
-       const firstPlayBtn = cards[0].querySelector('.play-btn');
+       const firstPlayBtn = cards[0].querySelector('.card-play-btn');
        firstAudio.play();
        firstPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
        mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
@@ -435,13 +432,13 @@
       activeAudio.play();
       mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
       if (activeCard) {
-       activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-pause"></i>';
+       activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-pause"></i>';
       }
      } else {
       activeAudio.pause();
       mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
       if (activeCard) {
-       activeCard.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+       activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-play"></i>';
       }
      }
     });
