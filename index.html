@@ -16,10 +16,28 @@
    audio {
     display: none;
    }
-   .card {
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    position: relative;
-   }
+.card {
+     transition: background-color 0.3s ease;
+     position: relative;
+    }
+    .card:hover {
+     background-color: #374151;
+    }
+    .card.playing {
+     background-color: #374151;
+    }
+    .card.playing::after {
+     content: '';
+     position: absolute;
+     left: 0;
+     top: 0;
+     bottom: 0;
+     width: 4px;
+     background-color: #1db954;
+    }
+    .progress-bar {
+     transition: width 0.1s linear;
+    }
    .card:hover {
     background-color: #374151;
    }
@@ -106,182 +124,93 @@
     <section class="mb-10">
      <h1 class="text-3xl font-bold mb-5">Good Evening</h1>
      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative">
+       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Gonzy - INSTINTO ANIMAL.mp3">
         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/INSTINTO ANIMAL.jpg" />
         <h2 class="text-lg font-semibold truncate">Instinto Animal</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Gonzy - INSTINTO ANIMAL.mp3" type="audio/mpeg" />
-        </audio>
        </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/X'CLUSIVO (REMIX).jpg" />
-        <h2 class="text-lg font-semibold truncate">X'CLUSIVO (Remix)</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Gonzy - X'CLUSIVO (REMIX).mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Que Sed.jpg" />
-        <h2 class="text-lg font-semibold truncate">Fue Culpa Tuya</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Luck Ra - FUE CULPA TUYA.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Hablando De Love.jpg" />
-        <h2 class="text-lg font-semibold truncate">Hablando de Love</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Tiago PZK - Hablando De Love.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/xq te enamoraste.jpg" />
-        <h2 class="text-lg font-semibold truncate">XQ Te Enamoraste</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/ZELL - xq te enamoraste.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Gonzy - X'CLUSIVO (REMIX).mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/X'CLUSIVO (REMIX).jpg" />
+         <h2 class="text-lg font-semibold truncate">X'CLUSIVO (Remix)</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Luck Ra - FUE CULPA TUYA.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Que Sed.jpg" />
+         <h2 class="text-lg font-semibold truncate">Fue Culpa Tuya</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Tiago PZK - Hablando De Love.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Hablando De Love.jpg" />
+         <h2 class="text-lg font-semibold truncate">Hablando de Love</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/ZELL - xq te enamoraste.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/xq te enamoraste.jpg" />
+         <h2 class="text-lg font-semibold truncate">XQ Te Enamoraste</h2>
+        </article>
      </div>
     </section>
     <section class="mb-8">
      <h2 class="text-2xl font-bold mb-4">Milo J - 166 (Deluxe)</h2>
      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">Buen Día</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">Ojalá</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - OJALA.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">Olimpo</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - OLIMPO.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">Retirada</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - RETIRADA.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">La Tortura</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - LA TORTURA.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">Buen Día</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - OJALA.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">Ojalá</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - OLIMPO.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">Olimpo</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - RETIRADA.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">Retirada</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - LA TORTURA.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">La Tortura</h2>
+        </article>
      </div>
     </section>
     <section class="mb-8">
      <h2 class="text-2xl font-bold mb-4">Made For You</h2>
      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-        <h2 class="text-lg font-semibold truncate">Paraíso (Daña)</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Milo j - PARAISO (daña).mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Va a querer volver.jpg" />
-        <h2 class="text-lg font-semibold truncate">Va A Querer Volver</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Felipelblessed - Va a querer volver.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/POLLYPOCKET.jpg" />
-        <h2 class="text-lg font-semibold truncate">Pollypocket</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Martinwhite - POLLYPOCKET.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Glow Up album cover" class="w-20 h-20 rounded" src="Img/GLOW UP.jpg" />
-        <h2 class="text-lg font-semibold truncate">GLOW UP</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Lewis Potter - GLOW UP.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/YA NO ES LA MISMA.jpg" />
-        <h2 class="text-lg font-semibold truncate">Ya No Es La Misma</h2>
-        <button class="card-play-btn p-3 rounded-full bg-green-500 shadow-lg">
-         <i class="fas fa-play"></i>
-        </button>
-        <audio>
-         <source src="MP3/Vius - YA NO ES LA MISMA.mp3" type="audio/mpeg" />
-        </audio>
-       </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - PARAISO (daña).mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
+         <h2 class="text-lg font-semibold truncate">Paraíso (Daña)</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Felipelblessed - Va a querer volver.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Va a querer volver.jpg" />
+         <h2 class="text-lg font-semibold truncate">Va A Querer Volver</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Martinwhite - POLLYPOCKET.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/POLLYPOCKET.jpg" />
+         <h2 class="text-lg font-semibold truncate">Pollypocket</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Lewis Potter - GLOW UP.mp3">
+         <img alt="Glow Up album cover" class="w-20 h-20 rounded" src="Img/GLOW UP.jpg" />
+         <h2 class="text-lg font-semibold truncate">GLOW UP</h2>
+        </article>
+<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Vius - YA NO ES LA MISMA.mp3">
+         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/YA NO ES LA MISMA.jpg" />
+         <h2 class="text-lg font-semibold truncate">Ya No Es La Misma</h2>
+        </article>
      </div>
     </section>
    </main>
   </div>
 
-  <div class="fixed-player fixed bottom-0 left-0 right-0 p-4 flex items-center justify-between z-50">
-   <div class="song-info flex items-center gap-4 w-1/4">
-    <img id="currentImage" src="" alt="Current song" class="rounded" />
-    <div>
-     <h3 id="currentTitle" class="font-semibold text-sm">Select a song</h3>
-     <p id="currentArtist" class="text-gray-400 text-xs">-</p>
+<div class="fixed-player fixed bottom-0 left-0 right-0 p-4 flex items-center justify-between z-50">
+    <div class="song-info flex items-center gap-4 w-1/4">
+     <img id="currentImage" src="" alt="Current song" class="rounded" />
+     <div>
+      <h3 id="currentTitle" class="font-semibold text-sm">Select a song</h3>
+      <p id="currentArtist" class="text-gray-400 text-xs">-</p>
+     </div>
+     <button class="like-btn text-gray-400 hover:text-white ml-2">
+      <i class="far fa-heart"></i>
+     </button>
     </div>
-    <button class="like-btn text-gray-400 hover:text-white ml-2">
-     <i class="far fa-heart"></i>
-    </button>
-   </div>
+    <audio id="mainAudio"></audio>
    <div class="w-1/2 flex flex-col items-center">
     <div class="flex items-center gap-6 mb-2">
      <button class="shuffle-btn text-gray-400 hover:text-white transition-colors">
@@ -325,9 +254,17 @@
   <script>
    document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('article.card');
-    let activeAudio = null;
-    let activeCard = null;
-    const songs = [];
+    let isPlaying = false;
+    let currentCard = null;
+
+    const mainAudio = document.getElementById('mainAudio');
+    const mainPlayBtn = document.getElementById('mainPlayBtn');
+    const mainProgressBar = document.getElementById('mainProgressBar');
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalTimeEl = document.getElementById('totalTime');
+    const currentTitleEl = document.getElementById('currentTitle');
+    const currentImageEl = document.getElementById('currentImage');
+    const volumeSlider = document.getElementById('volumeSlider');
 
     const formatTime = seconds => {
      const m = Math.floor(seconds / 60).toString().padStart(2, '0');
@@ -335,125 +272,73 @@
      return `${m}:${s}`;
     };
 
-    const mainPlayBtn = document.getElementById('mainPlayBtn');
-    const mainProgressBar = document.getElementById('mainProgressBar');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalTimeEl = document.getElementById('totalTime');
-    const currentTitleEl = document.getElementById('currentTitle');
-    const currentArtistEl = document.getElementById('currentArtist');
-    const currentImageEl = document.getElementById('currentImage');
-    const volumeSlider = document.getElementById('volumeSlider');
+    const playSong = (card) => {
+     const src = card.dataset.src;
+     const title = card.querySelector('h2').textContent;
+     const img = card.querySelector('img').src;
+
+     if (currentCard) {
+      currentCard.classList.remove('playing');
+     }
+
+     if (currentCard === card && isPlaying) {
+      mainAudio.pause();
+      isPlaying = false;
+      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
+      currentCard.classList.remove('playing');
+     } else {
+      mainAudio.src = src;
+      mainAudio.play();
+      isPlaying = true;
+      currentCard = card;
+      card.classList.add('playing');
+      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
+      currentTitleEl.textContent = title;
+      currentImageEl.src = img;
+     }
+    };
 
     cards.forEach(card => {
-     const audio = card.querySelector('audio');
-     const img = card.querySelector('img');
-     const title = card.querySelector('h2').textContent;
-     const playBtn = card.querySelector('.card-play-btn');
-
-     songs.push({ audio, card, img, title });
-
-     audio.addEventListener('loadedmetadata', () => {
-      if (activeAudio === audio) {
-       totalTimeEl.textContent = formatTime(audio.duration);
-      }
-     });
-
-     audio.addEventListener('timeupdate', () => {
-      if (activeAudio === audio) {
-       const percent = (audio.currentTime / audio.duration) * 100;
-       mainProgressBar.style.width = `${percent}%`;
-       currentTimeEl.textContent = formatTime(audio.currentTime);
-      }
-     });
-
-     audio.addEventListener('ended', () => {
-      playBtn.innerHTML = '<i class="fas fa-play"></i>';
-      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
-      mainProgressBar.style.width = '0%';
-      currentTimeEl.textContent = '0:00';
-     });
-
-     const playSong = () => {
-      if (activeAudio && activeAudio !== audio) {
-       activeAudio.pause();
-       if (activeCard) {
-        activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-play"></i>';
-       }
-      }
-
-      audio.play();
-      playBtn.innerHTML = '<i class="fas fa-pause"></i>';
-      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
-      activeAudio = audio;
-      activeCard = card;
-
-      currentTitleEl.textContent = title;
-      currentArtistEl.textContent = '';
-      currentImageEl.src = img.src;
-     };
-
-     playBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (audio.paused) {
-       playSong();
-      } else {
-       audio.pause();
-       playBtn.innerHTML = '<i class="fas fa-play"></i>';
-       mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
-      }
-     });
-
-     card.addEventListener('click', (e) => {
-      if (e.target.closest('.card-play-btn')) return;
-      if (audio.paused) {
-       playSong();
-      }
+     card.addEventListener('click', () => {
+      playSong(card);
      });
     });
 
     mainPlayBtn.addEventListener('click', () => {
-     if (!activeAudio) {
-      if (cards[0]) {
-       const firstAudio = cards[0].querySelector('audio');
-       const firstPlayBtn = cards[0].querySelector('.card-play-btn');
-       firstAudio.play();
-       firstPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-       mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
-       activeAudio = firstAudio;
-       activeCard = cards[0];
-       const title = cards[0].querySelector('h2').textContent;
-       currentTitleEl.textContent = title;
-       currentImageEl.src = cards[0].querySelector('img').src;
-      }
-      return;
+     if (currentCard) {
+      playSong(currentCard);
+     } else if (cards[0]) {
+      playSong(cards[0]);
      }
+    });
 
-     if (activeAudio.paused) {
-      activeAudio.play();
-      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
-      if (activeCard) {
-       activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-pause"></i>';
-      }
-     } else {
-      activeAudio.pause();
-      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
-      if (activeCard) {
-       activeCard.querySelector('.card-play-btn').innerHTML = '<i class="fas fa-play"></i>';
-      }
-     }
+    mainAudio.addEventListener('loadedmetadata', () => {
+     totalTimeEl.textContent = formatTime(mainAudio.duration);
+    });
+
+    mainAudio.addEventListener('timeupdate', () => {
+     const percent = (mainAudio.currentTime / mainAudio.duration) * 100;
+     mainProgressBar.style.width = `${percent}%`;
+     currentTimeEl.textContent = formatTime(mainAudio.currentTime);
+    });
+
+    mainAudio.addEventListener('ended', () => {
+     isPlaying = false;
+     mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
+     mainProgressBar.style.width = '0%';
+     currentTimeEl.textContent = '0:00';
+     if (currentCard) currentCard.classList.remove('playing');
     });
 
     volumeSlider.addEventListener('input', (e) => {
-     if (activeAudio) {
-      activeAudio.volume = e.target.value / 100;
-     }
+     mainAudio.volume = e.target.value / 100;
     });
 
     document.querySelector('.progress-container').addEventListener('click', (e) => {
-     if (!activeAudio || !activeAudio.duration) return;
+     if (!mainAudio.duration) return;
      const rect = e.currentTarget.getBoundingClientRect();
      const clickRatio = (e.clientX - rect.left) / rect.width;
-     activeAudio.currentTime = clickRatio * activeAudio.duration;
+     mainAudio.currentTime = clickRatio * mainAudio.duration;
     });
    });
   </script>
