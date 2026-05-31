@@ -1,346 +1,943 @@
-﻿<html lang="en">
- <head>
-  <meta charset="utf-8" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spotify Clone</title>
-
   <link rel="icon" type="image/png" href="SL.png" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
   <style>
-   body {
-    font-family: 'Roboto', sans-serif;
-    padding-bottom: 100px;
-   }
-   audio {
-    display: none;
-   }
-.card {
-     transition: background-color 0.3s ease;
-     position: relative;
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:     #1db954;
+      --bg:        #0a0a0a;
+      --surface:   #121212;
+      --surface2:  #1a1a1a;
+      --surface3:  #242424;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #fff;
+      --muted:     #a7a7a7;
+      --sidebar-w: 220px;
+      --player-h:  90px;
     }
-    .card:hover {
-     background-color: #374151;
+
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      font-family: 'Figtree', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: grid;
+      grid-template-rows: 1fr var(--player-h);
+      grid-template-columns: var(--sidebar-w) 1fr;
+      grid-template-areas: "sidebar main" "player player";
     }
-    .card.playing {
-     background-color: #374151;
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      grid-area: sidebar;
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding-bottom: 8px;
     }
-    .card.playing::after {
-     content: '';
-     position: absolute;
-     left: 0;
-     top: 0;
-     bottom: 0;
-     width: 4px;
-     background-color: #1db954;
+
+    .sidebar-logo { padding: 24px 20px 16px; flex-shrink: 0; }
+    .sidebar-logo img { width: 120px; }
+
+    .sidebar-nav { padding: 0 8px; flex-shrink: 0; }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      border-radius: 6px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: color .15s;
     }
-    .progress-bar {
-     transition: width 0.1s linear;
+
+    .sidebar-nav a:hover, .sidebar-nav a.active { color: #fff; }
+    .sidebar-nav a i { font-size: 1.1rem; width: 18px; text-align: center; }
+
+    .sidebar-divider { height: 1px; background: var(--border); margin: 10px 12px; flex-shrink: 0; }
+
+    .sidebar-recent { padding: 8px 8px 0; flex: 1; overflow-y: auto; }
+
+    .sidebar-recent-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 4px 8px 10px;
     }
-   .card:hover {
-    background-color: #374151;
-   }
-.card mainPlayBtn {
-     position: absolute;
-     bottom: 70px;
-     right: 10px;
-     opacity: 0;
-     transform: translateY(10px);
-     transition: opacity 0.3s ease, transform 0.3s ease;
+
+    .sidebar-song-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .15s;
     }
-    .card:hover mainPlayBtn {
-     opacity: 1;
-     transform: translateY(0);
+
+    .sidebar-song-item:hover { background: rgba(255,255,255,.06); }
+    .sidebar-song-item.active { background: rgba(255,255,255,.1); }
+
+    .sidebar-song-img {
+      width: 38px; height: 38px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--surface3);
     }
-    .player-controls .progress-container {
-     cursor: pointer;
+
+    .sidebar-song-placeholder {
+      width: 38px; height: 38px;
+      border-radius: 4px;
+      background: var(--surface3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted);
+      flex-shrink: 0;
     }
-   .progress-bar {
-    transition: width 0.1s linear;
-   }
-   .fixed-player {
-    background-color: #121212;
-    border-top: 1px solid #282828;
-   }
-   .fixed-player .main-play-btn {
-    min-width: 40px;
-    min-height: 40px;
-   }
-   .song-info img {
-    width: 56px;
-    height: 56px;
-    object-fit: cover;
-   }
-   .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-   }
-   .scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-   }
+
+    .sidebar-song-info { min-width: 0; }
+    .sidebar-song-info strong { display: block; font-size: 0.8rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-song-info span { font-size: 0.72rem; color: var(--muted); }
+
+    /* ── MAIN ── */
+    #main {
+      grid-area: main;
+      overflow-y: auto;
+      background: linear-gradient(180deg, #1a2a1a 0%, var(--surface) 300px);
+    }
+
+    .main-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(18,18,18,.75);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar-left { display: flex; gap: 8px; align-items: center; }
+
+    .topbar-nav button {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.6);
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: .85rem;
+      transition: opacity .15s;
+    }
+
+    .topbar-nav button:hover { opacity: .75; }
+
+    .view-tabs { display: flex; gap: 6px; }
+
+    .view-tab {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: rgba(255,255,255,.08);
+      color: var(--muted);
+      font-family: inherit;
+      transition: background .15s, color .15s;
+    }
+
+    .view-tab.active { background: #fff; color: #000; }
+    .view-tab:hover:not(.active) { background: rgba(255,255,255,.15); color: #fff; }
+
+    .main-content { padding: 20px 28px 40px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 { font-size: 1.3rem; font-weight: 700; }
+
+    /* ── DROP ZONE ── */
+    .drop-zone {
+      border: 2px dashed rgba(255,255,255,.1);
+      border-radius: 12px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 32px;
+      cursor: pointer;
+      position: relative;
+      transition: border-color .2s, background .2s;
+    }
+
+    .drop-zone.drag-over { border-color: var(--green); background: rgba(29,185,84,.06); }
+
+    .drop-zone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .drop-zone-icon { font-size: 1.8rem; margin-bottom: 8px; color: var(--muted); }
+    .drop-zone h3 { font-size: 0.92rem; font-weight: 600; margin-bottom: 5px; }
+    .drop-zone p { font-size: 0.76rem; color: var(--muted); }
+    .drop-zone span { color: var(--green); font-weight: 600; }
+
+    /* ── CARDS ── */
+    .songs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .song-card {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 14px;
+      cursor: pointer;
+      transition: background .2s;
+      position: relative;
+    }
+
+    .song-card:hover { background: var(--surface3); }
+    .song-card.playing { background: var(--surface3); }
+
+    .card-img-wrap { position: relative; margin-bottom: 12px; }
+
+    .card-img-wrap img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 6px;
+      display: block;
+      box-shadow: 0 8px 24px rgba(0,0,0,.5);
+    }
+
+    .card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--surface3);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: var(--muted);
+    }
+
+    .card-play-btn {
+      position: absolute;
+      bottom: 8px; right: 8px;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: var(--green);
+      border: none;
+      color: #000;
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .2s, transform .2s, background .15s;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 16px rgba(0,0,0,.4);
+    }
+
+    .song-card:hover .card-play-btn,
+    .song-card.playing .card-play-btn { opacity: 1; transform: translateY(0); }
+    .card-play-btn:hover { background: #1ed760; transform: scale(1.06) !important; }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card-artist { font-size: 0.78rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .playing-bars {
+      display: none;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    .song-card.playing .playing-bars { display: flex; }
+
+    .playing-bars span {
+      display: block;
+      width: 3px;
+      background: var(--green);
+      border-radius: 2px;
+      animation: barBounce .7s ease-in-out infinite alternate;
+    }
+
+    .playing-bars span:nth-child(2) { animation-delay: .15s; }
+    .playing-bars span:nth-child(3) { animation-delay: .3s; }
+
+    @keyframes barBounce { from { height: 3px; } to { height: 12px; } }
+
+    /* ── PLAYER ── */
+    #player {
+      grid-area: player;
+      background: #181818;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      align-items: center;
+      padding: 0 16px;
+      gap: 16px;
+      z-index: 50;
+    }
+
+    .player-song { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
+    #playerThumb {
+      width: 54px; height: 54px;
+      border-radius: 4px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--surface3);
+    }
+
+    .player-song-text { min-width: 0; }
+    #playerTitle { font-size: 0.84rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+    #playerArtist { font-size: 0.74rem; color: var(--muted); display: block; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .player-like {
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      font-size: 1rem; padding: 4px;
+      transition: color .15s;
+      flex-shrink: 0;
+    }
+
+    .player-like:hover, .player-like.liked { color: var(--green); }
+
+    .player-center { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+    .player-controls { display: flex; align-items: center; gap: 18px; }
+
+    .ctrl-btn {
+      background: none; border: none;
+      color: var(--muted); cursor: pointer;
+      font-size: 1rem; padding: 4px;
+      border-radius: 50%;
+      transition: color .15s, transform .1s;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+
+    .ctrl-btn:hover { color: #fff; transform: scale(1.08); }
+    .ctrl-btn.active { color: var(--green); }
+
+    .ctrl-btn .repeat-one-dot {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 5px; height: 5px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+
+    #mainPlayBtn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      color: #000;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .1s, background .15s;
+    }
+
+    #mainPlayBtn:hover { background: #f0f0f0; transform: scale(1.06); }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .progress-row span {
+      font-size: 0.7rem;
+      color: var(--muted);
+      min-width: 36px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .progress-row span:last-child { text-align: right; }
+
+    .progress-track {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,.15);
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: height .1s;
+    }
+
+    .progress-track:hover { height: 6px; }
+    .progress-track:hover #mainProgressBar { background: var(--green); }
+
+    #mainProgressBar {
+      height: 100%;
+      background: #fff;
+      border-radius: 2px;
+      width: 0;
+      pointer-events: none;
+    }
+
+    .player-right { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+
+    .vol-row { display: flex; align-items: center; gap: 6px; }
+
+    .vol-row input[type=range] {
+      width: 88px;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed;
+      bottom: calc(var(--player-h) + 16px);
+      left: 50%;
+      transform: translateX(-50%) translateY(10px);
+      background: var(--green);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 9px 18px;
+      border-radius: 999px;
+      opacity: 0;
+      transition: opacity .3s, transform .3s;
+      z-index: 300;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
   </style>
- </head>
- <body class="bg-gray-900 text-white">
-  <div class="flex">
-   <aside class="w-64 bg-black h-screen p-5 fixed top-0 left-0 flex flex-col">
-    <div class="mb-8">
-     <img alt="Spotify logo" class="mb-5" height="50" src="Spotify.png" width="150" />
-     <ul>
-      <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
-        <i class="fas fa-home mr-3"></i>
-        Home
-       </a>
-      </li>
-      <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
-        <i class="fas fa-search mr-3"></i>
-        Search
-       </a>
-      </li>
-      <li class="mb-4">
-       <a class="flex items-center text-gray-400 hover:text-white transition-colors" href="#">
-        <i class="fas fa-bookmark mr-3"></i>
-        Your Library
-       </a>
-      </li>
-     </ul>
-    </div>
-    <div class="mt-auto">
-     <h3 class="text-gray-400 mb-4 text-sm uppercase tracking-wider">Credits</h3>
-     <ul>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">BlackBox</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Remove BG</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Behance</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Deemix</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Github</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">Spotify Art Getter</a></li>
-      <li class="mb-2"><a class="text-gray-400 hover:text-white transition-colors text-sm" href="#">VSCode</a></li>
-     </ul>
-    </div>
-   </aside>
-   <main class="flex-1 p-10 ml-64">
-    <section class="mb-10">
-     <h1 class="text-3xl font-bold mb-5">Good Evening</h1>
-     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-       <article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Gonzy - INSTINTO ANIMAL.mp3">
-        <img alt="Album cover" class="w-20 h-20 rounded" src="Img/INSTINTO ANIMAL.jpg" />
-        <h2 class="text-lg font-semibold truncate">Instinto Animal</h2>
-       </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Gonzy - X'CLUSIVO (REMIX).mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/X'CLUSIVO (REMIX).jpg" />
-         <h2 class="text-lg font-semibold truncate">X'CLUSIVO (Remix)</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Luck Ra - FUE CULPA TUYA.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Que Sed.jpg" />
-         <h2 class="text-lg font-semibold truncate">Fue Culpa Tuya</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Tiago PZK - Hablando De Love.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Hablando De Love.jpg" />
-         <h2 class="text-lg font-semibold truncate">Hablando de Love</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/ZELL - xq te enamoraste.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/xq te enamoraste.jpg" />
-         <h2 class="text-lg font-semibold truncate">XQ Te Enamoraste</h2>
-        </article>
-     </div>
-    </section>
-    <section class="mb-8">
-     <h2 class="text-2xl font-bold mb-4">Milo J - 166 (Deluxe)</h2>
-     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">Buen Día</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - OJALA.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">Ojalá</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - OLIMPO.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">Olimpo</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - RETIRADA.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">Retirada</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - LA TORTURA.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">La Tortura</h2>
-        </article>
-     </div>
-    </section>
-    <section class="mb-8">
-     <h2 class="text-2xl font-bold mb-4">Made For You</h2>
-     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Milo j - PARAISO (daña).mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/166 (DELUXE).jpg" />
-         <h2 class="text-lg font-semibold truncate">Paraíso (Daña)</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Felipelblessed - Va a querer volver.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/Va a querer volver.jpg" />
-         <h2 class="text-lg font-semibold truncate">Va A Querer Volver</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Martinwhite - POLLYPOCKET.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/POLLYPOCKET.jpg" />
-         <h2 class="text-lg font-semibold truncate">Pollypocket</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Lewis Potter - GLOW UP.mp3">
-         <img alt="Glow Up album cover" class="w-20 h-20 rounded" src="Img/GLOW UP.jpg" />
-         <h2 class="text-lg font-semibold truncate">GLOW UP</h2>
-        </article>
-<article class="card bg-gray-800 p-4 rounded-md flex items-center gap-4 cursor-pointer relative" data-src="MP3/Vius - YA NO ES LA MISMA.mp3">
-         <img alt="Album cover" class="w-20 h-20 rounded" src="Img/YA NO ES LA MISMA.jpg" />
-         <h2 class="text-lg font-semibold truncate">Ya No Es La Misma</h2>
-        </article>
-     </div>
-    </section>
-   </main>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="Spotify.png" alt="Spotify" onerror="this.style.display='none'" />
   </div>
 
-<div class="fixed-player fixed bottom-0 left-0 right-0 p-4 flex items-center justify-between z-50">
-    <div class="song-info flex items-center gap-4 w-1/4">
-     <img id="currentImage" src="" alt="Current song" class="rounded" />
-     <div>
-      <h3 id="currentTitle" class="font-semibold text-sm">Select a song</h3>
-      <p id="currentArtist" class="text-gray-400 text-xs">-</p>
-     </div>
-     <button class="like-btn text-gray-400 hover:text-white ml-2">
+  <nav class="sidebar-nav">
+    <a href="#" class="active" onclick="showHome(event)">
+      <i class="fas fa-house"></i> Inicio
+    </a>
+  </nav>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-recent">
+    <div class="sidebar-recent-title">Escuchado recientemente</div>
+    <div id="recentList"></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main id="main">
+  <div class="main-topbar">
+    <div class="topbar-left">
+      <div class="topbar-nav">
+        <button onclick="history.back()"><i class="fas fa-chevron-left"></i></button>
+        <button onclick="history.forward()"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="view-tabs">
+        <button class="view-tab active" onclick="setView('all',this)">Todo</button>
+        <button class="view-tab" onclick="setView('music',this)">Música</button>
+        <button class="view-tab" onclick="setView('myfiles',this)">Mis archivos</button>
+      </div>
+    </div>
+    <div></div>
+  </div>
+
+  <div class="main-content">
+
+    <!-- Drop Zone -->
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept="audio/*" multiple />
+      <div class="drop-zone-icon"><i class="fas fa-music"></i></div>
+      <h3>Agregá tus propios MP3</h3>
+      <p>Arrastrá archivos acá o <span>hacé clic para seleccionarlos</span></p>
+      <p style="margin-top:5px;font-size:.71rem">Solo están disponibles mientras la pestaña esté abierta</p>
+    </div>
+
+    <!-- Saludo / top picks -->
+    <div id="topSection">
+      <div class="section-header">
+        <h2 id="greetingTitle">Buenas noches</h2>
+      </div>
+      <div class="songs-grid" id="topGrid"></div>
+    </div>
+
+    <!-- Milo J -->
+    <div id="miloSection">
+      <div class="section-header">
+        <h2>Milo J — 166 (Deluxe)</h2>
+      </div>
+      <div class="songs-grid" id="miloGrid"></div>
+    </div>
+
+    <!-- Hecho para vos -->
+    <div id="madeForSection">
+      <div class="section-header">
+        <h2>Hecho para vos</h2>
+      </div>
+      <div class="songs-grid" id="madeForGrid"></div>
+    </div>
+
+    <!-- Mis archivos -->
+    <div id="userSection" style="display:none">
+      <div class="section-header">
+        <h2>Mis archivos</h2>
+      </div>
+      <div class="songs-grid" id="userGrid"></div>
+    </div>
+
+  </div>
+</main>
+
+<!-- PLAYER -->
+<div id="player">
+  <div class="player-song">
+    <img id="playerThumb" src="" alt="" />
+    <div class="player-song-text">
+      <span id="playerTitle">Seleccioná una canción</span>
+      <span id="playerArtist">—</span>
+    </div>
+    <button class="player-like" id="likeBtn" onclick="toggleLike()">
       <i class="far fa-heart"></i>
-     </button>
-    </div>
-    <audio id="mainAudio"></audio>
-   <div class="w-1/2 flex flex-col items-center">
-    <div class="flex items-center gap-6 mb-2">
-     <button class="shuffle-btn text-gray-400 hover:text-white transition-colors">
-     <i class="fas fa-random"></i>
     </button>
-     <button class="prev-btn text-gray-400 hover:text-white transition-colors text-xl">
-     <i class="fas fa-step-backward"></i>
-    </button>
-     <button id="mainPlayBtn" class="main-play-btn p-3 rounded-full bg-white text-black hover:scale-105 transition-transform">
-     <i class="fas fa-play text-lg"></i>
-    </button>
-    <button class="next-btn text-gray-400 hover:text-white transition-colors text-xl">
-     <i class="fas fa-step-forward"></i>
-    </button>
-    <button class="repeat-btn text-gray-400 hover:text-white transition-colors">
-     <i class="fas fa-redo"></i>
-    </button>
-    </div>
-    <div class="w-full flex items-center gap-3">
-     <span id="currentTime" class="text-xs text-gray-400 w-10 text-right">0:00</span>
-     <div class="progress-container flex-1 bg-gray-600 h-1 rounded cursor-pointer relative">
-     <div id="mainProgressBar" class="progress-bar bg-green-500 h-full w-0 absolute top-0 left-0"></div>
-     </div>
-     <span id="totalTime" class="text-xs text-gray-400 w-10">0:00</span>
-    </div>
-   </div>
-   <div class="w-1/4 flex items-center justify-end gap-3">
-    <button class="text-gray-400 hover:text-white transition-colors">
-     <i class="fas fa-list"></i>
-    </button>
-    <button class="text-gray-400 hover:text-white transition-colors">
-     <i class="fas fa-desktop"></i>
-    </button>
-    <button id="volumeBtn" class="text-gray-400 hover:text-white transition-colors">
-     <i class="fas fa-volume-up"></i>
-    </button>
-    <input type="range" id="volumeSlider" min="0" max="100" value="100" class="w-24 accent-green-500" />
-   </div>
   </div>
 
-  <script>
-   document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('article.card');
-    let isPlaying = false;
-    let currentCard = null;
+  <div class="player-center">
+    <div class="player-controls">
+      <button class="ctrl-btn" id="shuffleBtn" onclick="toggleShuffle()" title="Aleatorio">
+        <i class="fas fa-shuffle"></i>
+      </button>
+      <button class="ctrl-btn" onclick="prevSong()" title="Anterior">
+        <i class="fas fa-backward-step"></i>
+      </button>
+      <button id="mainPlayBtn" onclick="togglePlay()">
+        <i class="fas fa-play"></i>
+      </button>
+      <button class="ctrl-btn" onclick="nextSong()" title="Siguiente">
+        <i class="fas fa-forward-step"></i>
+      </button>
+      <button class="ctrl-btn" id="repeatBtn" onclick="toggleRepeat()" title="Repetir">
+        <i class="fas fa-repeat"></i>
+      </button>
+    </div>
+    <div class="progress-row">
+      <span id="currentTime">0:00</span>
+      <div class="progress-track" id="progressTrack">
+        <div id="mainProgressBar"></div>
+      </div>
+      <span id="totalTime">0:00</span>
+    </div>
+  </div>
 
-    const mainAudio = document.getElementById('mainAudio');
-    const mainPlayBtn = document.getElementById('mainPlayBtn');
-    const mainProgressBar = document.getElementById('mainProgressBar');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalTimeEl = document.getElementById('totalTime');
-    const currentTitleEl = document.getElementById('currentTitle');
-    const currentImageEl = document.getElementById('currentImage');
-    const volumeSlider = document.getElementById('volumeSlider');
+  <div class="player-right">
+    <div class="vol-row">
+      <button class="ctrl-btn" id="volBtn" onclick="toggleMute()">
+        <i class="fas fa-volume-high"></i>
+      </button>
+      <input type="range" id="volumeSlider" min="0" max="100" value="80" />
+    </div>
+  </div>
+</div>
 
-    const formatTime = seconds => {
-     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-     const s = Math.floor(seconds % 60).toString().padStart(2, '0');
-     return `${m}:${s}`;
-    };
+<div class="toast" id="toast"></div>
+<audio id="mainAudio"></audio>
 
-    const playSong = (card) => {
-     const src = card.dataset.src;
-     const title = card.querySelector('h2').textContent;
-     const img = card.querySelector('img').src;
+<script>
+// ── DATOS ─────────────────────────────────────────────────────────────────────
+const BASE_SONGS = [
+  { id:'s1', title:"Instinto Animal",      artist:"Gonzy",        src:"MP3/Gonzy - INSTINTO ANIMAL.mp3",                          img:"Img/INSTINTO ANIMAL.jpg",      section:'top' },
+  { id:'s2', title:"X'CLUSIVO (Remix)",    artist:"Gonzy",        src:"MP3/Gonzy - X'CLUSIVO (REMIX).mp3",                        img:"Img/X'CLUSIVO (REMIX).jpg",    section:'top' },
+  { id:'s3', title:"Fue Culpa Tuya",       artist:"Luck Ra",      src:"MP3/Luck Ra - FUE CULPA TUYA.mp3",                         img:"Img/Que Sed.jpg",              section:'top' },
+  { id:'s4', title:"Hablando de Love",     artist:"Tiago PZK",    src:"MP3/Tiago PZK - Hablando De Love.mp3",                     img:"Img/Hablando De Love.jpg",     section:'top' },
+  { id:'s5', title:"XQ Te Enamoraste",     artist:"ZELL",         src:"MP3/ZELL - xq te enamoraste.mp3",                          img:"Img/xq te enamoraste.jpg",     section:'top' },
+  { id:'m1', title:"Buen Día Portación",   artist:"Milo j",       src:"MP3/Milo j - BUEN DÍA PORTACIÓN DE ROSTRO.mp3",            img:"Img/166 (DELUXE).jpg",         section:'milo', album:"166 (Deluxe)" },
+  { id:'m2', title:"Ojalá",               artist:"Milo j",       src:"MP3/Milo j - OJALA.mp3",                                   img:"Img/166 (DELUXE).jpg",         section:'milo', album:"166 (Deluxe)" },
+  { id:'m3', title:"Olimpo",              artist:"Milo j",       src:"MP3/Milo j - OLIMPO.mp3",                                  img:"Img/166 (DELUXE).jpg",         section:'milo', album:"166 (Deluxe)" },
+  { id:'m4', title:"Retirada",            artist:"Milo j",       src:"MP3/Milo j - RETIRADA.mp3",                                img:"Img/166 (DELUXE).jpg",         section:'milo', album:"166 (Deluxe)" },
+  { id:'m5', title:"La Tortura",          artist:"Milo j",       src:"MP3/Milo j - LA TORTURA.mp3",                              img:"Img/166 (DELUXE).jpg",         section:'milo', album:"166 (Deluxe)" },
+  { id:'f1', title:"Paraíso (Daña)",      artist:"Milo j",       src:"MP3/Milo j - PARAISO (daña).mp3",                          img:"Img/166 (DELUXE).jpg",         section:'madeFor' },
+  { id:'f2', title:"Va A Querer Volver",  artist:"Felipelblessed",src:"MP3/Felipelblessed - Va a querer volver.mp3",               img:"Img/Va a querer volver.jpg",   section:'madeFor' },
+  { id:'f3', title:"Pollypocket",         artist:"Martinwhite",  src:"MP3/Martinwhite - POLLYPOCKET.mp3",                        img:"Img/POLLYPOCKET.jpg",          section:'madeFor' },
+  { id:'f4', title:"GLOW UP",             artist:"Lewis Potter", src:"MP3/Lewis Potter - GLOW UP.mp3",                           img:"Img/GLOW UP.jpg",              section:'madeFor' },
+  { id:'f5', title:"Ya No Es La Misma",   artist:"Vius",         src:"MP3/Vius - YA NO ES LA MISMA.mp3",                         img:"Img/YA NO ES LA MISMA.jpg",    section:'madeFor' },
+];
 
-     if (currentCard) {
-      currentCard.classList.remove('playing');
-     }
+let allSongs   = [...BASE_SONGS];
+let userSongs  = [];
+let queue      = [];
+let queueIndex = -1;
+let isPlaying  = false;
+let isShuffle  = false;
+let repeatMode = 0;   // 0=off 1=all 2=one
+let lastVolume = 0.8;
+let isMuted    = false;
+let recent     = [];  // ids de canciones escuchadas recientemente
 
-     if (currentCard === card && isPlaying) {
-      mainAudio.pause();
-      isPlaying = false;
-      mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
-      currentCard.classList.remove('playing');
-     } else {
-      mainAudio.src = src;
-      mainAudio.play();
-      isPlaying = true;
-      currentCard = card;
-      card.classList.add('playing');
-      mainPlayBtn.innerHTML = '<i class="fas fa-pause text-lg"></i>';
-      currentTitleEl.textContent = title;
-      currentImageEl.src = img;
-     }
-    };
+const audio = document.getElementById('mainAudio');
 
-    cards.forEach(card => {
-     card.addEventListener('click', () => {
-      playSong(card);
-     });
-    });
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+const getSong = id => allSongs.find(s => s.id === id);
 
-    mainPlayBtn.addEventListener('click', () => {
-     if (currentCard) {
-      playSong(currentCard);
-     } else if (cards[0]) {
-      playSong(cards[0]);
-     }
-    });
+function formatTime(sec) {
+  if (!sec || isNaN(sec)) return '0:00';
+  return `${Math.floor(sec/60)}:${Math.floor(sec%60).toString().padStart(2,'0')}`;
+}
 
-    mainAudio.addEventListener('loadedmetadata', () => {
-     totalTimeEl.textContent = formatTime(mainAudio.duration);
-    });
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), 2400);
+}
 
-    mainAudio.addEventListener('timeupdate', () => {
-     const percent = (mainAudio.currentTime / mainAudio.duration) * 100;
-     mainProgressBar.style.width = `${percent}%`;
-     currentTimeEl.textContent = formatTime(mainAudio.currentTime);
-    });
+function greeting() {
+  const h = new Date().getHours();
+  if (h >= 5  && h < 12) return 'Buenos días';
+  if (h >= 12 && h < 20) return 'Buenas tardes';
+  return 'Buenas noches';
+}
 
-    mainAudio.addEventListener('ended', () => {
-     isPlaying = false;
-     mainPlayBtn.innerHTML = '<i class="fas fa-play text-lg"></i>';
-     mainProgressBar.style.width = '0%';
-     currentTimeEl.textContent = '0:00';
-     if (currentCard) currentCard.classList.remove('playing');
-    });
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function makeCard(song) {
+  const div = document.createElement('div');
+  div.className = 'song-card';
+  div.dataset.id = song.id;
+  div.innerHTML = `
+    <div class="card-img-wrap">
+      ${song.img
+        ? `<img src="${song.img}" alt="${song.title}" loading="lazy">`
+        : `<div class="card-img-placeholder"><i class="fas fa-music"></i></div>`}
+      <button class="card-play-btn"><i class="fas fa-play"></i></button>
+    </div>
+    <div class="card-title">
+      ${song.title}
+      <span class="playing-bars"><span></span><span></span><span></span></span>
+    </div>
+    <div class="card-artist">${song.artist}</div>`;
+  div.addEventListener('click', () => {
+    const sectionSongs = allSongs.filter(s => s.section === song.section);
+    const rest = allSongs.filter(s => s.section !== song.section);
+    playSongById(song.id, [...sectionSongs, ...rest]);
+  });
+  return div;
+}
 
-    volumeSlider.addEventListener('input', (e) => {
-     mainAudio.volume = e.target.value / 100;
-    });
+function renderGrid(id, songs) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.innerHTML = '';
+  songs.forEach(s => el.appendChild(makeCard(s)));
+}
 
-    document.querySelector('.progress-container').addEventListener('click', (e) => {
-     if (!mainAudio.duration) return;
-     const rect = e.currentTarget.getBoundingClientRect();
-     const clickRatio = (e.clientX - rect.left) / rect.width;
-     mainAudio.currentTime = clickRatio * mainAudio.duration;
-    });
-   });
-  </script>
- </body>
+function renderAll() {
+  document.getElementById('greetingTitle').textContent = greeting();
+  renderGrid('topGrid',     allSongs.filter(s => s.section === 'top'));
+  renderGrid('miloGrid',    allSongs.filter(s => s.section === 'milo'));
+  renderGrid('madeForGrid', allSongs.filter(s => s.section === 'madeFor'));
+  if (userSongs.length) {
+    document.getElementById('userSection').style.display = '';
+    renderGrid('userGrid', userSongs);
+  } else {
+    document.getElementById('userSection').style.display = 'none';
+  }
+  updatePlayingCards();
+}
+
+function renderRecent() {
+  const el = document.getElementById('recentList');
+  el.innerHTML = '';
+  recent.slice(0, 10).forEach(id => {
+    const s = getSong(id);
+    if (!s) return;
+    const item = document.createElement('div');
+    item.className = 'sidebar-song-item' + (queue[queueIndex]?.id === id ? ' active' : '');
+    item.innerHTML = `
+      ${s.img
+        ? `<img class="sidebar-song-img" src="${s.img}" alt="">`
+        : `<div class="sidebar-song-placeholder"><i class="fas fa-music"></i></div>`}
+      <div class="sidebar-song-info">
+        <strong>${s.title}</strong>
+        <span>${s.artist}</span>
+      </div>`;
+    item.addEventListener('click', () => playSongById(s.id, queue.length ? queue : allSongs));
+    el.appendChild(item);
+  });
+}
+
+// ── REPRODUCCIÓN ──────────────────────────────────────────────────────────────
+function playSongById(id, newQueue) {
+  if (newQueue) {
+    queue = newQueue;
+    queueIndex = queue.findIndex(s => s.id === id);
+    if (queueIndex === -1) { queue.unshift(getSong(id)); queueIndex = 0; }
+  } else {
+    queueIndex = queue.findIndex(s => s.id === id);
+    if (queueIndex === -1) return;
+  }
+  loadAndPlay();
+}
+
+function loadAndPlay() {
+  const song = queue[queueIndex];
+  if (!song) return;
+  audio.src = song.src;
+  audio.volume = isMuted ? 0 : lastVolume;
+  audio.play().catch(() => {});
+  isPlaying = true;
+  // Actualizar UI del player
+  document.getElementById('playerTitle').textContent  = song.title;
+  document.getElementById('playerArtist').textContent = song.artist;
+  const thumb = document.getElementById('playerThumb');
+  if (song.img) { thumb.src = song.img; thumb.style.background = ''; }
+  else { thumb.src = ''; thumb.style.background = 'var(--surface3)'; }
+  updatePlayBtn();
+  updatePlayingCards();
+  // Recientes
+  recent = [song.id, ...recent.filter(id => id !== song.id)].slice(0, 20);
+  renderRecent();
+}
+
+function togglePlay() {
+  if (!queue.length) return;
+  isPlaying ? audio.pause() : audio.play();
+  isPlaying = !isPlaying;
+  updatePlayBtn();
+  updatePlayingCards();
+}
+
+function nextSong() {
+  if (!queue.length) return;
+  if (repeatMode === 2) { audio.currentTime = 0; audio.play(); return; }
+  if (isShuffle) {
+    let idx;
+    do { idx = Math.floor(Math.random() * queue.length); }
+    while (idx === queueIndex && queue.length > 1);
+    queueIndex = idx;
+  } else {
+    queueIndex = (queueIndex + 1) % queue.length;
+  }
+  loadAndPlay();
+}
+
+function prevSong() {
+  if (!queue.length) return;
+  if (audio.currentTime > 3) { audio.currentTime = 0; return; }
+  queueIndex = (queueIndex - 1 + queue.length) % queue.length;
+  loadAndPlay();
+}
+
+function toggleShuffle() {
+  isShuffle = !isShuffle;
+  document.getElementById('shuffleBtn').classList.toggle('active', isShuffle);
+  toast(isShuffle ? 'Aleatorio activado' : 'Aleatorio desactivado');
+}
+
+function toggleRepeat() {
+  repeatMode = (repeatMode + 1) % 3;
+  const btn = document.getElementById('repeatBtn');
+  btn.classList.toggle('active', repeatMode > 0);
+  // Punto indicador para repetir una
+  btn.innerHTML = repeatMode === 2
+    ? '<i class="fas fa-repeat"></i><span class="repeat-one-dot"></span>'
+    : '<i class="fas fa-repeat"></i>';
+  toast(['Repetir desactivado', 'Repetir todo', 'Repetir una canción'][repeatMode]);
+}
+
+function toggleMute() {
+  isMuted = !isMuted;
+  audio.volume = isMuted ? 0 : lastVolume;
+  const icon = isMuted ? 'xmark' : lastVolume > 0.5 ? 'high' : 'low';
+  document.getElementById('volBtn').innerHTML = `<i class="fas fa-volume-${icon}"></i>`;
+}
+
+function toggleLike() {
+  const btn = document.getElementById('likeBtn');
+  const liked = !btn.classList.contains('liked');
+  btn.classList.toggle('liked', liked);
+  btn.innerHTML = `<i class="${liked ? 'fas' : 'far'} fa-heart"></i>`;
+  if (liked) toast('Guardado en canciones que te gustan');
+}
+
+function updatePlayBtn() {
+  document.getElementById('mainPlayBtn').innerHTML =
+    `<i class="fas fa-${isPlaying ? 'pause' : 'play'}"></i>`;
+}
+
+function updatePlayingCards() {
+  const current = queue[queueIndex];
+  document.querySelectorAll('.song-card').forEach(card => {
+    const active = current && card.dataset.id === current.id;
+    card.classList.toggle('playing', active);
+    const icon = card.querySelector('.card-play-btn i');
+    if (icon) icon.className = `fas fa-${active && isPlaying ? 'pause' : 'play'}`;
+  });
+  document.querySelectorAll('.sidebar-song-item').forEach(item => {
+    item.classList.toggle('active', current && item.querySelector('strong')?.textContent === current.title);
+  });
+}
+
+// ── AUDIO EVENTS ──────────────────────────────────────────────────────────────
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  document.getElementById('mainProgressBar').style.width = (audio.currentTime / audio.duration * 100) + '%';
+  document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+});
+
+audio.addEventListener('loadedmetadata', () => {
+  document.getElementById('totalTime').textContent = formatTime(audio.duration);
+});
+
+audio.addEventListener('ended', () => {
+  if (repeatMode === 2) { audio.currentTime = 0; audio.play(); return; }
+  nextSong();
+});
+
+audio.addEventListener('play',  () => { isPlaying = true;  updatePlayBtn(); updatePlayingCards(); });
+audio.addEventListener('pause', () => { isPlaying = false; updatePlayBtn(); updatePlayingCards(); });
+
+// Barra de progreso
+document.getElementById('progressTrack').addEventListener('click', e => {
+  if (!audio.duration) return;
+  const rect = e.currentTarget.getBoundingClientRect();
+  audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+});
+
+// Volumen
+document.getElementById('volumeSlider').addEventListener('input', e => {
+  lastVolume = e.target.value / 100;
+  audio.volume = lastVolume;
+  isMuted = lastVolume === 0;
+  const icon = lastVolume === 0 ? 'xmark' : lastVolume > 0.5 ? 'high' : 'low';
+  document.getElementById('volBtn').innerHTML = `<i class="fas fa-volume-${icon}"></i>`;
+});
+
+audio.volume = 0.8;
+
+// ── DRAG & DROP ───────────────────────────────────────────────────────────────
+const dropZone  = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  handleFiles([...e.dataTransfer.files]);
+});
+fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+
+function handleFiles(files) {
+  const audioFiles = files.filter(f => f.type.startsWith('audio/'));
+  if (!audioFiles.length) { toast('No se encontraron archivos de audio'); return; }
+  audioFiles.forEach(f => {
+    const url  = URL.createObjectURL(f);
+    const raw  = f.name.replace(/\.[^.]+$/, '');
+    const dash = raw.indexOf(' - ');
+    const artist = dash > -1 ? raw.slice(0, dash).trim() : 'Desconocido';
+    const title  = dash > -1 ? raw.slice(dash + 3).trim() : raw;
+    const id = 'u_' + Date.now() + '_' + Math.random().toString(36).slice(2);
+    const song = { id, title, artist, src: url, img: null, section: 'user', isUser: true };
+    userSongs.push(song);
+    allSongs.push(song);
+  });
+  renderAll();
+  toast(`${audioFiles.length} canción${audioFiles.length > 1 ? 'es' : ''} agregada${audioFiles.length > 1 ? 's' : ''}`);
+}
+
+// ── VISTAS ────────────────────────────────────────────────────────────────────
+function showHome(e) { if (e) e.preventDefault(); }
+
+function setView(type, btn) {
+  document.querySelectorAll('.view-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const top      = document.getElementById('topSection');
+  const milo     = document.getElementById('miloSection');
+  const madeFor  = document.getElementById('madeForSection');
+  const user     = document.getElementById('userSection');
+
+  if (type === 'all') {
+    top.style.display = milo.style.display = madeFor.style.display = '';
+    user.style.display = userSongs.length ? '' : 'none';
+    renderAll();
+  } else if (type === 'music') {
+    top.style.display = milo.style.display = madeFor.style.display = '';
+    user.style.display = 'none';
+    renderGrid('topGrid',     BASE_SONGS.filter(s => s.section === 'top'));
+    renderGrid('miloGrid',    BASE_SONGS.filter(s => s.section === 'milo'));
+    renderGrid('madeForGrid', BASE_SONGS.filter(s => s.section === 'madeFor'));
+    updatePlayingCards();
+  } else if (type === 'myfiles') {
+    top.style.display = milo.style.display = madeFor.style.display = 'none';
+    user.style.display = userSongs.length ? '' : 'none';
+    if (userSongs.length) renderGrid('userGrid', userSongs);
+    updatePlayingCards();
+  }
+}
+
+// ── TECLADO ───────────────────────────────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (['INPUT','TEXTAREA'].includes(e.target.tagName)) return;
+  if (e.code === 'Space')       { e.preventDefault(); togglePlay(); }
+  if (e.code === 'ArrowRight')  nextSong();
+  if (e.code === 'ArrowLeft')   prevSong();
+});
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderAll();
+renderRecent();
+</script>
+</body>
 </html>
